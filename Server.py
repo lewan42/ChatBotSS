@@ -3,45 +3,57 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 from vk_api.utils import get_random_id
 from vk_bot import VkBot
 from Messages import *
+import json
 
 class Server(vk_api.VkApi):
+    """ Сервер бота """
     def __init__(self, ptoken):
         super().__init__(token = ptoken)
         self.longPoll = VkLongPoll(self)
-        self.bot = VkBot()
-        self.msgs = [RepeatMsg(self.bot), HelloMsg(self.bot), ByeMsg(self.bot), WhoIMsg(self.bot), IDontNow(self.bot)]
+        self.msgs = [RepeatMsg(), HelloMsg(), ByeMsg(), WhoIMsg(), IDontNow()]
 
     def run(self):
+        """ Основной цикл сервера """
         print(self.start_msg())
         for event in self.longPoll.listen():
             if event.type == VkEventType.MESSAGE_NEW:
                 self.msg_handler(event)
-                print(self.msg_log(event, self.bot))
+                print(self.msg_log(event))
     
     def start_msg(self):
+        """ Начальное сообщение """
         return "Бот запущен!\n" + "--"*10  + "\n"
 
     def msg_handler(self, event):
-        self.bot.setup(event)
+        """ Обработчик сообщений """
         if event.to_me:
             self.msg_to_me(event)
                
     def msg_to_me(self, event):
+        """ Сообщение к серверу """
         for msg in self.msgs:
-            text = msg.get(event.text)
+            text = msg.get(self, event)
             if text != "":
                 self.send_msg(event,text)
                 break
         
     def send_msg(self, event, msg):
+        """ Отправить сообщение """
         self.method('messages.send', {'user_id': event.user_id, 'random_id': get_random_id(), 'message': msg})
 
-    def msg_log(self, event, bot):
+    def get_user_info(self, event):
+        """ Получить информацию о пользователе в данной сессии """
+        return self.method('users.get', {'user_ids': event.user_id, "fields" :'sex, bdate, city, country, home_town'})[0]
+
+    def msg_log(self, event):
+        """ Журнал """
         log = 'Новое сообщение:\n'
+        info = self.get_user_info(event)
+
         if event.from_me:
-            log += 'От бота для: {0} '.format(bot.USERNAME)
+            log += "От бота для: {first_name} {last_name} ".format(**info)
         elif event.to_me:
-            log +=  'Для бота от: {0} '.format(bot.USERNAME)
+            log +=  "Для бота от: {first_name} {last_name} ".format(**info)
         if event.from_user:
             log +=  str(event.user_id)
         return log

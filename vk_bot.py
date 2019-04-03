@@ -11,6 +11,7 @@ class VkBot:
         url = "https://vk.com/id" + str(user_id)
         bs = BeautifulSoup(requests.get(url).text, "html.parser")
         _titleTag = bs.html.head.title
+        print(_titleTag)
 
         return self._clean_all_tag_from_str(_titleTag)
 
