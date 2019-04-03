@@ -3,9 +3,9 @@ from bs4 import BeautifulSoup
 
 class VkBot:
 
-    def __init__(self, user_id):
-        self.USER_ID = user_id
-        self.USERNAME = self._get_user_name_from_vk_id(user_id)
+    def setup(self, event):
+        self.USER_ID = event.user_id
+        self.USERNAME = self._get_user_name_from_vk_id(self.USER_ID)
 
     def _get_user_name_from_vk_id(self, user_id):
         url = "https://vk.com/id" + str(user_id)
