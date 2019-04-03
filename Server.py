@@ -10,7 +10,7 @@ class Server(vk_api.VkApi):
     def __init__(self, ptoken):
         super().__init__(token = ptoken)
         self.longPoll = VkLongPoll(self)
-        self.msgs = [RepeatMsg(), HelloMsg(), ByeMsg(), WhoIMsg(), IDontNow()]
+        self.msgs = [RepeatMsg(), HelloMsg(), WhoIMsg(), WhoYouMsg(), ByeMsg()]
 
     def run(self):
         """ Основной цикл сервера """
@@ -30,12 +30,17 @@ class Server(vk_api.VkApi):
             self.msg_to_me(event)
                
     def msg_to_me(self, event):
-        """ Сообщение к серверу """
+        """ Сообщение серверу """
+        ok = False
         for msg in self.msgs:
             text = msg.get(self, event)
             if text != "":
+                ok = True
                 self.send_msg(event,text)
-                break
+        if not ok:
+            self.send_msg(event, IDontNow().get(self, event))
+
+                
         
     def send_msg(self, event, msg):
         """ Отправить сообщение """

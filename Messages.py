@@ -64,8 +64,7 @@ class WhoYouMsg(Message):
     def request(self):
         return "кто ты"
     def response(self):
-        info = self.get_info()
-        return  "Я, Секретарша студента."
+        return  "Я, Секретарша студента 😃"
 
 class RepeatMsg(Message):
     def request(self):
@@ -76,7 +75,7 @@ class RepeatMsg(Message):
 class IDontNow(Message):
     def get(self, server, event):
         self.setup(server, event)
-        text = "Не понял что ты написал"
+        text = "Не понял, что ты написал"
         Message.past_msg = text.lower()
         return text
 
