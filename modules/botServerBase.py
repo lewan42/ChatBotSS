@@ -4,7 +4,7 @@ import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from vk_api.utils import get_random_id
 from vk_api.upload import VkUpload
-from user import User
+from modules.user import User
 
 class BotServerBase():
     ''' Базовый класс Бота '''
@@ -44,7 +44,6 @@ class BotServerBase():
         print('\n----------------')
         print('Новое сообщение:')
         print('Для бота от: {0}'.format(event.obj.from_id))
-        print('Текст:', event.obj.text)
 
     def replyMessage(self,event):
         '''Отправленное сообщение (override)'''
@@ -52,7 +51,6 @@ class BotServerBase():
         print('\n----------------')
         print('Новое сообщение:')
         print('От меня для: {0}'.format(event.obj.peer_id))
-        print('Текст:', event.obj.text)
 
     def typingMessage(self,event):
         '''Кто-то пишет (override)'''

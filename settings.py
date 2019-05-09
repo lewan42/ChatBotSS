@@ -1,3 +1,3 @@
 GROUP_TOKEN = ""
 GROUP_ID = 180454656
-MODULES = ["GiveMeMoney", "HelloMsg", "ByeMsg", "WhoIMsg", "WhoYouMsg"]
+MODULES = ["Schedule", "GiveMeMoney", "HelloMsg", "ByeMsg", "WhoIMsg", "WhoYouMsg"]

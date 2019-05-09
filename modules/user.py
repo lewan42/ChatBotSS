@@ -3,7 +3,6 @@
 
 class User():
     def __init__(self, user_info):
-        print(user_info)
         self.id =  user_info["id"]
         self.first_name = user_info["first_name"]
         self.last_name = user_info["last_name"]

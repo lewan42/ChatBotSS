@@ -1,3 +1,4 @@
+import re
 class Message:
     """ Класс сообщений """
     
@@ -15,7 +16,7 @@ class Message:
     def get(self, server, event):
         """ Выполнение запроса """
         self.setup(server, event)
-        if self.request() in event.obj.text.lower():
+        if re.match(self.request(), event.obj.text.lower()):
             return self.response()
         return ""
 

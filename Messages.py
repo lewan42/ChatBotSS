@@ -1,4 +1,5 @@
-from message import Message
+from modules.message import Message
+from modules.xlsxparser import XLSXExporter
 
 class HelloMsg(Message):
     def request(self):
@@ -20,7 +21,7 @@ class WhoIMsg(Message):
 
 class WhoYouMsg(Message):
     def request(self):
-        return "кто ты"
+        return "(кто ты)|(ты кто)"
     def response(self):
         return  "Я, Секретарша студента 😃"
 
@@ -46,3 +47,8 @@ class GiveMeMoney(Message):
 
         return  "Готово!"
 
+class Schedule(Message):
+    def request(self):
+        return "расписание"
+    def response(self):    
+        return XLSXExporter().export("documents/RIS16PosleVesna.xlsx")
