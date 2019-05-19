@@ -4,7 +4,7 @@ db = SqliteDatabase('db.db')
 
 class Person(Model):
     userid = IntegerField()
-    state = IntegerField()
+    state = CharField()
     data = CharField()
     date = DateTimeField()
 

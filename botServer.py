@@ -29,7 +29,13 @@ class BotServer(BotServerBase):
                 ok = True
                 self.send_message(event,text)        
         if not ok:
-            self.send_message(event, IDontNow().get(self, event))
+            person = self.loadUserData(event)
+
+            if person["state"] == 1:
+                self.send_message(event, IDontNow().get(self, event))
+
+            else:
+                self.send_message(event, IDontNow().get(self, event))
     
     def seqName(self, event):
         "Создание уникального названия"
@@ -44,7 +50,7 @@ class BotServer(BotServerBase):
         self.upload_document(event, file_name, title)
         os.remove(file_name)
 
-    def saveUserData(self, event, state = 0, data = ""):
+    def saveUserData(self, event, state = "default", data = ""):
         """ Сохранить данные данного пользователя """
          
         try:
@@ -55,7 +61,7 @@ class BotServer(BotServerBase):
         except:      
             person = Person.create(
                 userid = event.obj.from_id ,
-                state = state,
+                state = str(state),
                 data = str(data),
                 date = str(datetime.datetime.now())
             )
