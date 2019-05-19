@@ -5,7 +5,7 @@ class GetMoneyCourse(Message):
     def request(self):
         return r"\W+"
     def response(self):
-        
+        self.server.saveUserData(self.event, 2, "data")
 
 
 class GiveMeMoneyFinal(Message):
