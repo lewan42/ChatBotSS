@@ -28,27 +28,8 @@ class WhoYouMsg(Message):
 class IDontNow(Message):
     def get(self, server, event):
         self.setup(server, event)
-        text = "Не понял, что ты написал"
-        Message.past_msg = text.lower()
-        return text
+        return "Не понял, что ты написал 🤔"
 
-class GiveMeMoney(Message):
-    def request(self):
-        return "заявление на стипендию"
-    def response(self):
-        values = {
-            "course" : "",
-            "group" : "",
-            "fio" : self.user.last_name + " " + self.user.first_name[0],
-            "mobile" : "",
-            "active" : ""}
 
-        self.server.upload_gen_document(self.event, "documents/SchApp.docx", values, "Степуха!")
 
-        return  "Готово!"
 
-class Schedule(Message):
-    def request(self):
-        return "расписание"
-    def response(self):    
-        return XLSXExporter().export("documents/RIS16PosleVesna.xlsx")
