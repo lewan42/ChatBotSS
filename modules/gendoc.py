@@ -1,4 +1,3 @@
-
 from docxtpl import DocxTemplate
 
 class GenDoc():
