@@ -27,7 +27,7 @@ class BotServer(BotServerBase):
             text = msg.get(self, event)
             if text != "":
                 ok = True
-                self.send_message(event,text)        
+                self.send_message(event, text)
         if not ok:
             person = self.loadUserData(event)
 
@@ -50,31 +50,29 @@ class BotServer(BotServerBase):
         self.upload_document(event, file_name, title)
         os.remove(file_name)
 
-    def saveUserData(self, event, state = "default", data = ""):
+    def saveUserData(self, event, state="default", data=""):
         """ Сохранить данные данного пользователя """
-         
         try:
             person = Person.get(Person.userid == event.obj.from_id)
             person.state = state
-            person.data = str(data)
+            person.data += str(data)
             person.date = str(datetime.datetime.now())
+            person.save()
         except:      
             person = Person.create(
-                userid = event.obj.from_id ,
-                state = str(state),
-                data = str(data),
-                date = str(datetime.datetime.now())
+                userid=event.obj.from_id,
+                state=str(state),
+                data=str(data),
+                date=str(datetime.datetime.now())
             )
 
     def loadUserData(self, event):
         """ Загрузить данные данного пользователя """
 
-        print("test")
         person = Person.get(Person.userid == event.obj.from_id)
         return {"userid": person.userid,
             "state": person.state,
             "data": person.data,
             "date": person.date,
            }
-        
-    
+
